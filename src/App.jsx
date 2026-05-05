@@ -57,7 +57,7 @@ export default function App() {
 
           <div className="header-actions">
             <a
-              className="btn btn-outline btn-small"
+              className="btn btn-primary btn-small"
               href={bookingUrl}
               target="_blank"
               rel="noreferrer"
