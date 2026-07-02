@@ -710,7 +710,7 @@ a{color:inherit}
   .mini-stat{padding:10px 10px}
   .badge{display:none}
   .stats{grid-template-columns:1fr}
-  .hero-visual{min-height:320px}
+  .hero-visual{display:none}
 
   /* full-width buttons on mobile */
   .hero-cta{

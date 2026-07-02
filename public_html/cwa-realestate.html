@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CWA — AI Automation Systems For Real Estate Businesses</title>
+    <meta
+      name="description"
+      content="CWA builds AI-powered automation systems for real estate developers, builders, channel partners, and brokers across India. Stop losing leads. Book more site visits. Close more deals."
+    />
+    <meta property="og:title" content="CWA — AI Automation For Real Estate" />
+    <meta
+      property="og:description"
+      content="Reply to every lead instantly. Book site visits on autopilot. Starting at ₹34,999/month."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./cwa-realestate.css" />
+  </head>
+  <body>
+    <!-- ============ SVG ICON SPRITE ============ -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+      <defs>
+        <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+        <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+        <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+        <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 21h16M7 17v-5M12 17V8M17 17v-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+        <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 20c.6-3.2 3.2-5 6-5s5.4 1.8 6 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="17" cy="9" r="2.4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16 14c2 .2 4 1.4 5 3.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+        <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/></symbol>
+        <symbol id="i-trending-up" viewBox="0 0 24 24"><path d="m3 17 6-6 4 4 8-8M15 7h6v6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+        <symbol id="i-house" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8M5 9.5V21h14V9.5M10 21v-7h4v7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+        <symbol id="i-cash" viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="6" cy="12" r=".9" fill="currentColor"/><circle cx="18" cy="12" r=".9" fill="currentColor"/></symbol>
+        <symbol id="i-whatsapp" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.58 2 2.15 6.33 2.15 11.69c0 1.7.46 3.36 1.35 4.83L2 22l5.64-1.47a10.07 10.07 0 0 0 4.4 1.01h.01c5.46 0 9.89-4.33 9.89-9.69C21.94 6.33 17.5 2 12.04 2Zm5.88 14.12c-.25.69-1.23 1.28-1.94 1.43-.48.1-1.1.18-3.58-.76-3.17-1.24-5.2-4.33-5.36-4.54-.15-.21-1.29-1.7-1.29-3.25 0-1.55.82-2.31 1.12-2.63.29-.31.65-.38.86-.38h.62c.2 0 .48-.07.75.57.27.65.92 2.24 1 2.4.08.16.13.34.02.55-.11.21-.17.34-.33.53-.16.19-.34.42-.48.56-.16.16-.33.33-.14.65.19.32.86 1.42 1.85 2.3 1.27 1.13 2.34 1.48 2.67 1.64.32.16.51.14.7-.08.19-.21.8-.93 1.01-1.25.21-.32.42-.27.7-.16.29.11 1.84.86 2.16 1.02.32.16.53.24.61.37.08.13.08.75-.17 1.44Z"/></symbol>
+        <symbol id="i-crm" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9 4v16M15 4v16" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="5" y="7" width="3" height="2" rx=".5" fill="currentColor"/><rect x="5" y="10.5" width="3" height="2" rx=".5" fill="currentColor"/><rect x="11" y="7" width="3" height="2" rx=".5" fill="currentColor"/><rect x="11" y="10.5" width="3" height="2" rx=".5" fill="currentColor"/><rect x="11" y="14" width="3" height="2" rx=".5" fill="currentColor"/><rect x="17" y="7" width="2.5" height="2" rx=".5" fill="currentColor"/></symbol>
+        <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor"/></symbol>
+        <symbol id="i-facebook" viewBox="0 0 24 24"><path d="M14 21v-8h3l.6-3.6H14V7.2c0-1 .3-1.7 1.8-1.7H18V2.4c-.4 0-1.6-.2-2.9-.2-2.9 0-4.9 1.8-4.9 5v3h-3v3.6h3V21h4z" fill="currentColor"/></symbol>
+        <symbol id="i-email" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+        <symbol id="i-bot" viewBox="0 0 24 24"><rect x="3.5" y="8" width="17" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="9" cy="14" r="1.4" fill="currentColor"/><circle cx="15" cy="14" r="1.4" fill="currentColor"/><path d="M12 4v4M9 4h6M2 14h1.5M20.5 14H22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+        <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 13.7-5.7L21 8M21 3v5h-5M20 12a8 8 0 0 1-13.7 5.7L3 16M3 21v-5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+        <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2.4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 9.5h17M8 3v4M16 3v4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="9" cy="14" r=".9" fill="currentColor"/><circle cx="12" cy="14" r=".9" fill="currentColor"/><circle cx="15" cy="14" r=".9" fill="currentColor"/></symbol>
+        <symbol id="i-infinity" viewBox="0 0 24 24"><path d="M18.2 8c5.1 0 5.1 8 0 8-5.1 0-7.1-8-12.4-8-4.6 0-4.6 8 0 8 5.3 0 7.3-8 12.4-8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+        <symbol id="i-tools" viewBox="0 0 24 24"><path d="m14.7 6.3 3-3a4 4 0 0 1 4 4l-3 3M11 11l-7.5 7.5a1.4 1.4 0 0 0 2 2L13 13M8 8l4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+        <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3.5 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+        <symbol id="i-clipboard" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9 4V3a1.5 1.5 0 0 1 1.5-1.5h3A1.5 1.5 0 0 1 15 3v1M9 11h6M9 14.5h6M9 18h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+        <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 2c1.5 4 6 5 6 11a6 6 0 0 1-12 0c0-2 .8-3.2 1.8-4.2.2 1.5.8 2.2 1.6 2.2 1.4 0 1.4-2.2.3-4.2-1.4-2.6.7-4.7 2.3-4.8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+        <symbol id="i-alert" viewBox="0 0 24 24"><path d="m12 3 10 18H2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 10v4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="17.5" r="1" fill="currentColor"/></symbol>
+        <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3 14 9l6 2-6 2-2 6-2-6-6-2 6-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M19 3v3M21 4.5h-3M5 16v3M6.5 17.5h-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+        <symbol id="i-question" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.6 2.3c-.8.4-1.1 1-1.1 1.7v.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="currentColor"/></symbol>
+        <symbol id="i-link" viewBox="0 0 24 24"><path d="M10.5 13.5a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M13.5 10.5a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+        <symbol id="i-rocket" viewBox="0 0 24 24"><path d="M14 14 8 8C5 8 3 10 3 14c4 0 6-2 6-2zM10 14l4-4M21 3c-4 0-7 2-9 4l-4 4 5 5 4-4c2-2 4-5 4-9z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="15.5" cy="8.5" r="1.5" fill="currentColor"/></symbol>
+        <symbol id="i-timer" viewBox="0 0 24 24"><circle cx="12" cy="14" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 14V9.5M9.5 3h5M19.5 6.5l-1.5 1.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+        <symbol id="i-alert-bell" viewBox="0 0 24 24"><path d="M18 16V11a6 6 0 0 0-12 0v5l-2 3h16zM10 20a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      </defs>
+    </svg>
+
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header" id="top">
+      <div class="container header-inner">
+        <a class="brand" href="#top" aria-label="Consult With Ankush">
+          <img class="brand-logo" src="./assets/logo.png" alt="Consult With Ankush" />
+        </a>
+
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+          <span class="sr-only">Open menu</span>
+          <span class="hamburger" aria-hidden="true"></span>
+        </button>
+
+        <nav class="nav" id="site-nav" aria-label="Primary">
+          <a class="nav-link" href="#features">Features</a>
+          <a class="nav-link" href="#how-it-works">How It Works</a>
+          <a class="nav-link" href="#pricing">Pricing</a>
+          <a class="nav-link" href="#about">About Us</a>
+          <a class="nav-link" href="#contact">Contact</a>
+          <a
+            class="nav-cta-mobile"
+            href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ3k31eKNRs1ull4ITM9bp3lYEr5nJLL-Rbe14uJF81txizuwjqC19rzINTRtFEWK6wXkfZaaFQ_"
+            target="_blank"
+            rel="noreferrer"
+          >Book Free Strategy Call <span aria-hidden="true">→</span></a>
+        </nav>
+
+        <div class="header-actions">
+          <a
+            class="btn btn-primary btn-small"
+            href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ3k31eKNRs1ull4ITM9bp3lYEr5nJLL-Rbe14uJF81txizuwjqC19rzINTRtFEWK6wXkfZaaFQ_"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Book Free Strategy Call <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <a
+      class="whatsapp-fab"
+      href="https://api.whatsapp.com/send?phone=919517710848&text=I%20want%20to%20automate%20my%20real%20estate%20business%21"
+      target="_blank"
+      rel="noreferrer"
+      aria-label="Chat on WhatsApp"
+    >
+      <svg class="whatsapp-fab__icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path
+          fill="currentColor"
+          d="M12.04 2C6.58 2 2.15 6.33 2.15 11.69c0 1.7.46 3.36 1.35 4.83L2 22l5.64-1.47a10.07 10.07 0 0 0 4.4 1.01h.01c5.46 0 9.89-4.33 9.89-9.69C21.94 6.33 17.5 2 12.04 2Zm5.88 14.12c-.25.69-1.23 1.28-1.94 1.43-.48.1-1.1.18-3.58-.76-3.17-1.24-5.2-4.33-5.36-4.54-.15-.21-1.29-1.7-1.29-3.25 0-1.55.82-2.31 1.12-2.63.29-.31.65-.38.86-.38h.62c.2 0 .48-.07.75.57.27.65.92 2.24 1 2.4.08.16.13.34.02.55-.11.21-.17.34-.33.53-.16.19-.34.42-.48.56-.16.16-.33.33-.14.65.19.32.86 1.42 1.85 2.3 1.27 1.13 2.34 1.48 2.67 1.64.32.16.51.14.7-.08.19-.21.8-.93 1.01-1.25.21-.32.42-.27.7-.16.29.11 1.84.86 2.16 1.02.32.16.53.24.61.37.08.13.08.75-.17 1.44Z"
+        />
+      </svg>
+    </a>
+
+    <main id="main">
+      <!-- HERO -->
+      <section class="hero" id="hero">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <div class="pill">
+              <span class="pill-dot" aria-hidden="true"></span>
+              AI-POWERED REAL ESTATE AUTOMATION
+            </div>
+
+            <h1 class="hero-title">
+              Stop Losing Real Estate<br />
+              Leads Every Single Day
+            </h1>
+
+            <p class="hero-lead">
+              <strong>Your team is busy. Your leads are not waiting.</strong>
+            </p>
+
+            <p class="hero-subtitle">
+              CWA builds AI-powered automation systems for real estate developers,
+              builders, channel partners, and brokers across India.
+            </p>
+
+            <ul class="hero-bullets">
+              <li><span class="check" aria-hidden="true"><svg class="ic"><use href="#i-check"/></svg></span> Reply to every lead instantly</li>
+              <li><span class="check" aria-hidden="true"><svg class="ic"><use href="#i-check"/></svg></span> Follow up on WhatsApp, Instagram &amp; Facebook</li>
+              <li><span class="check" aria-hidden="true"><svg class="ic"><use href="#i-check"/></svg></span> Book site visits automatically</li>
+              <li><span class="check" aria-hidden="true"><svg class="ic"><use href="#i-check"/></svg></span> Qualify buyers using AI</li>
+              <li><span class="check" aria-hidden="true"><svg class="ic"><use href="#i-check"/></svg></span> Increase conversions without increasing staff</li>
+            </ul>
+
+            <div class="hero-stats">
+              <div class="hero-stat">
+                <div class="hero-stat-value">78%</div>
+                <div class="hero-stat-label">of real estate leads never get proper follow-up</div>
+              </div>
+              <div class="hero-stat">
+                <div class="hero-stat-value">15–45 mins</div>
+                <div class="hero-stat-label">Most brokers reply after 15–45 minutes</div>
+              </div>
+              <div class="hero-stat">
+                <div class="hero-stat-value">5 mins</div>
+                <div class="hero-stat-label">Leads go cold within 5 minutes</div>
+              </div>
+              <div class="hero-stat">
+                <div class="hero-stat-value">₹ Lakhs</div>
+                <div class="hero-stat-label">Site visit no-shows destroy revenue</div>
+              </div>
+            </div>
+
+            <div class="pricing-strip">
+              <div class="pricing-strip-price">
+                <span class="pricing-strip-label">Starting At</span>
+                <span class="pricing-strip-value">₹34,999</span>
+                <span class="pricing-strip-period">/Month</span>
+              </div>
+              <ul class="pricing-strip-badges" aria-label="Included in plan">
+                <li><span class="badge-icon" aria-hidden="true"><svg class="ic"><use href="#i-bolt"/></svg></span> AI Automation System</li>
+                <li><span class="badge-icon" aria-hidden="true"><svg class="ic"><use href="#i-crm"/></svg></span> CRM Included</li>
+                <li><span class="badge-icon" aria-hidden="true"><svg class="ic"><use href="#i-users"/></svg></span> Unlimited Users</li>
+                <li><span class="badge-icon" aria-hidden="true"><svg class="ic"><use href="#i-target"/></svg></span> FREE Performance Marketing</li>
+              </ul>
+            </div>
+
+            <div class="hero-cta">
+              <a
+                class="btn btn-primary"
+                href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ3k31eKNRs1ull4ITM9bp3lYEr5nJLL-Rbe14uJF81txizuwjqC19rzINTRtFEWK6wXkfZaaFQ_"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Book Free Strategy Call <span aria-hidden="true">→</span>
+              </a>
+              <a class="btn btn-outline" href="#how-it-works">See Live Demo</a>
+            </div>
+          </div>
+
+          <div class="hero-visual" aria-hidden="true">
+            <div class="hero-photo">
+              <div class="hero-photo-frame">
+                <!-- Replace this background with your own property photo. -->
+                <div class="hero-photo-inner"></div>
+              </div>
+              <div class="hero-photo-tags">
+                <div class="photo-tag">
+                  <span class="photo-tag-icon"><svg class="ic ic-lg"><use href="#i-trending-up"/></svg></span>
+                  <span>MORE LEADS</span>
+                </div>
+                <div class="photo-tag">
+                  <span class="photo-tag-icon"><svg class="ic ic-lg"><use href="#i-house"/></svg></span>
+                  <span>MORE SITE VISITS</span>
+                </div>
+                <div class="photo-tag">
+                  <span class="photo-tag-icon"><svg class="ic ic-lg"><use href="#i-cash"/></svg></span>
+                  <span>MORE SALES</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 01 — LEAKING REVENUE -->
+      <section class="section section-band" id="problem">
+        <div class="container section-grid">
+          <div class="section-left">
+            <div class="section-num">01</div>
+            <h2 class="section-title">
+              Your Real Estate Business<br />Is Leaking Revenue Every Day
+            </h2>
+            <p class="section-lead">
+              The problem is not only the leads.<br />
+              The problem is the speed, consistency,<br />and follow-up process.
+            </p>
+            <a class="btn btn-primary btn-small" href="#features">
+              Fix My Lead System <span aria-hidden="true">→</span>
+            </a>
+          </div>
+          <div class="compare-cols">
+            <div class="compare-card compare-bad">
+              <div class="compare-head">WITHOUT AUTOMATION</div>
+              <ul class="compare-list">
+                <li><span class="mark mark-x" aria-hidden="true"><svg class="ic"><use href="#i-x"/></svg></span> Leads ignored after office hours</li>
+                <li><span class="mark mark-x" aria-hidden="true"><svg class="ic"><use href="#i-x"/></svg></span> Slow WhatsApp replies</li>
+                <li><span class="mark mark-x" aria-hidden="true"><svg class="ic"><use href="#i-x"/></svg></span> Missed Instagram DMs</li>
+                <li><span class="mark mark-x" aria-hidden="true"><svg class="ic"><use href="#i-x"/></svg></span> No automated reminders</li>
+                <li><span class="mark mark-x" aria-hidden="true"><svg class="ic"><use href="#i-x"/></svg></span> No lead tracking</li>
+                <li><span class="mark mark-x" aria-hidden="true"><svg class="ic"><use href="#i-x"/></svg></span> No reactivation campaigns</li>
+                <li><span class="mark mark-x" aria-hidden="true"><svg class="ic"><use href="#i-x"/></svg></span> Human errors in follow-ups</li>
+                <li><span class="mark mark-x" aria-hidden="true"><svg class="ic"><use href="#i-x"/></svg></span> Sales team dependency</li>
+              </ul>
+            </div>
+            <div class="compare-card compare-good">
+              <div class="compare-head">WITH CWA AI SYSTEMS</div>
+              <ul class="compare-list">
+                <li><span class="mark mark-c" aria-hidden="true"><svg class="ic"><use href="#i-check"/></svg></span> Instant replies in seconds</li>
+                <li><span class="mark mark-c" aria-hidden="true"><svg class="ic"><use href="#i-check"/></svg></span> AI conversations 24×7</li>
+                <li><span class="mark mark-c" aria-hidden="true"><svg class="ic"><use href="#i-check"/></svg></span> Automated lead nurturing</li>
+                <li><span class="mark mark-c" aria-hidden="true"><svg class="ic"><use href="#i-check"/></svg></span> Automatic reminders &amp; follow-ups</li>
+                <li><span class="mark mark-c" aria-hidden="true"><svg class="ic"><use href="#i-check"/></svg></span> Centralized CRM tracking</li>
+                <li><span class="mark mark-c" aria-hidden="true"><svg class="ic"><use href="#i-check"/></svg></span> Re-engagement campaigns</li>
+                <li><span class="mark mark-c" aria-hidden="true"><svg class="ic"><use href="#i-check"/></svg></span> Faster conversions</li>
+                <li><span class="mark mark-c" aria-hidden="true"><svg class="ic"><use href="#i-check"/></svg></span> More site visits booked</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 02 — AI RESPONSES -->
+      <section class="section" id="how-it-works">
+        <div class="container section-grid">
+          <div class="section-left">
+            <div class="section-num">02</div>
+            <h2 class="section-title">
+              See How The AI Responds<br />To Your Leads Instantly
+            </h2>
+            <p class="section-lead">
+              Your leads don't want to wait 30 minutes<br />
+              for a callback. They want answers<br />immediately.
+            </p>
+            <p class="section-lead">
+              This is how CWA AI engages real estate<br />buyers automatically.
+            </p>
+            <a class="btn btn-primary btn-small" href="#contact">
+              See Full AI Demo <span aria-hidden="true">→</span>
+            </a>
+          </div>
+
+          <div class="chats-grid">
+            <article class="chat-card">
+              <div class="chat-head">
+                <span class="chat-num">1</span>
+                <span class="chat-title">Apartment Inquiry</span>
+              </div>
+              <div class="chat-body">
+                <div class="bubble bubble-user">
+                  Hi, I saw your ad for 3 BHK flats in Whitefield. What's the starting price?
+                </div>
+                <div class="bubble bubble-ai">
+                  Hello! Thank you for your interest in our Whitefield project. 3 BHK units are starting from ₹1.12 Cr onwards.<br /><br />
+                  May I know:<br />
+                  1. Is this for self-use or investment?<br />
+                  2. What is your preferred possession timeline?
+                </div>
+                <div class="bubble bubble-user">Self-use. Looking to shift this year.</div>
+                <div class="bubble bubble-ai">
+                  Perfect. We currently have ready-to-move and near-possession units available.<br /><br />
+                  Would you like:<br />
+                  • Floor plans<br />
+                  • Pricing sheet<br />
+                  • Site visit booking<br />
+                  • Location brochure
+                </div>
+              </div>
+            </article>
+
+            <article class="chat-card">
+              <div class="chat-head">
+                <span class="chat-num">2</span>
+                <span class="chat-title">Missed Lead Recovery</span>
+              </div>
+              <div class="chat-body">
+                <div class="bubble bubble-ai">
+                  Hi Rahul,<br />
+                  Just checking in regarding your interest in plots near Sarjapur Road.<br /><br />
+                  Would you still like:<br />
+                  • Updated pricing<br />
+                  • Investment ROI details<br />
+                  • Available inventory<br />
+                  • Weekend site visit
+                </div>
+                <div class="bubble bubble-user">Yes, share latest pricing.</div>
+                <div class="bubble bubble-ai">
+                  Sure.<br />
+                  Current plot prices start from ₹46 Lakhs onwards.<br /><br />
+                  There's also a pre-launch offer ending this Sunday.<br /><br />
+                  Would you like me to arrange a callback or schedule a site visit?
+                </div>
+              </div>
+            </article>
+
+            <article class="chat-card">
+              <div class="chat-head">
+                <span class="chat-num">3</span>
+                <span class="chat-title">AI Qualification Chat</span>
+              </div>
+              <div class="chat-body">
+                <div class="bubble bubble-ai">
+                  Before we recommend properties, may I know your approximate budget?
+                </div>
+                <div class="chat-chips">
+                  <span class="chip">₹50L – ₹1Cr</span>
+                  <span class="chip chip-active">₹1Cr – ₹2Cr</span>
+                  <span class="chip">₹2Cr+</span>
+                </div>
+                <div class="bubble bubble-ai">
+                  Great. Which location are you mainly looking in?
+                </div>
+                <div class="chat-chips">
+                  <span class="chip chip-active">Whitefield</span>
+                  <span class="chip">Sarjapur</span>
+                  <span class="chip">Electronic City</span>
+                  <span class="chip">North Bangalore</span>
+                </div>
+                <div class="bubble bubble-ai">
+                  Perfect. We currently have 3 premium projects matching your budget in Whitefield.<br /><br />
+                  Would you like:<br />
+                  • Investment-focused options<br />
+                  • Ready-to-move properties<br />
+                  • Luxury apartments<br />
+                  • Villa projects
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <p class="chats-note">
+            This entire conversation happens automatically — even at midnight, during holidays, or when your sales team is unavailable.
+          </p>
+        </div>
+      </section>
+
+      <!-- 03 — NUMBERS DON'T LIE -->
+      <section class="section section-band" id="numbers">
+        <div class="container section-grid">
+          <div class="section-left">
+            <div class="section-num">03</div>
+            <h2 class="section-title">Numbers Don't Lie</h2>
+            <p class="section-lead">
+              In Indian real estate, <strong>speed wins deals.</strong>
+            </p>
+            <p class="section-lead">
+              The first builder or broker who responds usually gets the site visit.
+            </p>
+            <a class="btn btn-primary btn-small" href="#features">
+              See How Automation Works <span aria-hidden="true">→</span>
+            </a>
+          </div>
+
+          <div class="compare-table" role="region" aria-label="Traditional vs CWA AI">
+            <div class="ct-header">
+              <div>Problem</div>
+              <div>Traditional Teams</div>
+              <div>CWA AI System</div>
+            </div>
+            <div class="ct-row">
+              <div class="ct-cell"><span class="ct-icon" aria-hidden="true"><svg class="ic"><use href="#i-timer"/></svg></span> Response Time</div>
+              <div class="ct-cell ct-bad">15–40 mins</div>
+              <div class="ct-cell ct-good">&lt; 5 sec</div>
+            </div>
+            <div class="ct-row">
+              <div class="ct-cell"><span class="ct-icon" aria-hidden="true"><svg class="ic"><use href="#i-refresh"/></svg></span> Follow-Up Consistency</div>
+              <div class="ct-cell ct-bad">Low</div>
+              <div class="ct-cell ct-good">Automated</div>
+            </div>
+            <div class="ct-row">
+              <div class="ct-cell"><span class="ct-icon" aria-hidden="true"><svg class="ic"><use href="#i-clock"/></svg></span> Availability</div>
+              <div class="ct-cell ct-bad">Office Hours Only</div>
+              <div class="ct-cell ct-good">24×7</div>
+            </div>
+            <div class="ct-row">
+              <div class="ct-cell"><span class="ct-icon" aria-hidden="true"><svg class="ic"><use href="#i-clipboard"/></svg></span> Lead Tracking</div>
+              <div class="ct-cell ct-bad">Manual</div>
+              <div class="ct-cell ct-good">Automatic</div>
+            </div>
+            <div class="ct-row">
+              <div class="ct-cell"><span class="ct-icon" aria-hidden="true"><svg class="ic"><use href="#i-whatsapp"/></svg></span> WhatsApp Replies</div>
+              <div class="ct-cell ct-bad">Delayed</div>
+              <div class="ct-cell ct-good">Instant</div>
+            </div>
+            <div class="ct-row">
+              <div class="ct-cell"><span class="ct-icon" aria-hidden="true"><svg class="ic"><use href="#i-instagram"/></svg></span> Instagram DMs</div>
+              <div class="ct-cell ct-bad">Missed</div>
+              <div class="ct-cell ct-good">Automated</div>
+            </div>
+            <div class="ct-row">
+              <div class="ct-cell"><span class="ct-icon" aria-hidden="true"><svg class="ic"><use href="#i-facebook"/></svg></span> Facebook Replies</div>
+              <div class="ct-cell ct-bad">Inconsistent</div>
+              <div class="ct-cell ct-good">Automated</div>
+            </div>
+            <div class="ct-row">
+              <div class="ct-cell"><span class="ct-icon" aria-hidden="true"><svg class="ic"><use href="#i-calendar"/></svg></span> Site Visit Booking</div>
+              <div class="ct-cell ct-bad">Manual</div>
+              <div class="ct-cell ct-good">AI Assisted</div>
+            </div>
+            <div class="ct-row">
+              <div class="ct-cell"><span class="ct-icon" aria-hidden="true"><svg class="ic"><use href="#i-flame"/></svg></span> Lead Re-engagement</div>
+              <div class="ct-cell ct-bad">Rare</div>
+              <div class="ct-cell ct-good">Automated</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04, 05, 06 — FEATURE TRIO -->
+      <section class="section" id="features">
+        <div class="container">
+          <div class="trio-grid">
+            <article class="trio-card">
+              <div class="trio-num">04</div>
+              <h3 class="trio-title">Convert WhatsApp Leads<br />Into Site Visits Automatically</h3>
+              <ul class="trio-list">
+                <li><span class="trio-i" aria-hidden="true"><svg class="ic"><use href="#i-whatsapp"/></svg></span> AI WhatsApp Agent</li>
+                <li><span class="trio-i" aria-hidden="true"><svg class="ic"><use href="#i-refresh"/></svg></span> Automated Follow-Ups</li>
+                <li><span class="trio-i" aria-hidden="true"><svg class="ic"><use href="#i-calendar"/></svg></span> Site Visit Scheduling</li>
+                <li><span class="trio-i" aria-hidden="true"><svg class="ic"><use href="#i-infinity"/></svg></span> Unlimited WhatsApp Connections</li>
+              </ul>
+              <div class="trio-visual" aria-hidden="true">
+                <span class="brand-bubble brand-bubble-wa">
+                  <svg viewBox="0 0 24 24"><use href="#i-whatsapp"/></svg>
+                </span>
+              </div>
+              <a class="btn btn-primary btn-small" href="#contact">
+                Automate My WhatsApp <span aria-hidden="true">→</span>
+              </a>
+            </article>
+
+            <article class="trio-card">
+              <div class="trio-num">05</div>
+              <h3 class="trio-title">Turn Social Media Enquiries<br />Into Real Buyers</h3>
+              <ul class="trio-list">
+                <li><span class="trio-i" aria-hidden="true"><svg class="ic"><use href="#i-bolt"/></svg></span> Instant replies</li>
+                <li><span class="trio-i" aria-hidden="true"><svg class="ic"><use href="#i-question"/></svg></span> Auto qualification questions</li>
+                <li><span class="trio-i" aria-hidden="true"><svg class="ic"><use href="#i-target"/></svg></span> Lead capture automation</li>
+                <li><span class="trio-i" aria-hidden="true"><svg class="ic"><use href="#i-refresh"/></svg></span> Automated follow-up sequences</li>
+                <li><span class="trio-i" aria-hidden="true"><svg class="ic"><use href="#i-link"/></svg></span> CRM syncing &amp; booking flow</li>
+              </ul>
+              <div class="trio-visual" aria-hidden="true">
+                <span class="brand-bubble brand-bubble-ig">
+                  <svg viewBox="0 0 24 24"><use href="#i-instagram"/></svg>
+                </span>
+                <span class="brand-bubble brand-bubble-fb">
+                  <svg viewBox="0 0 24 24"><use href="#i-facebook"/></svg>
+                </span>
+              </div>
+              <a class="btn btn-primary btn-small" href="#contact">
+                See Social Media Automation <span aria-hidden="true">→</span>
+              </a>
+            </article>
+
+            <article class="trio-card">
+              <div class="trio-num">06</div>
+              <h3 class="trio-title">One CRM System To<br />Control Everything</h3>
+              <ul class="trio-list">
+                <li><span class="trio-i" aria-hidden="true"><svg class="ic"><use href="#i-clipboard"/></svg></span> Lead Tracking</li>
+                <li><span class="trio-i" aria-hidden="true"><svg class="ic"><use href="#i-tools"/></svg></span> Pipeline Management</li>
+                <li><span class="trio-i" aria-hidden="true"><svg class="ic"><use href="#i-users"/></svg></span> Team Access</li>
+                <li><span class="trio-i" aria-hidden="true"><svg class="ic"><use href="#i-clock"/></svg></span> Follow-Up Reminders</li>
+                <li><span class="trio-i" aria-hidden="true"><svg class="ic"><use href="#i-trending-up"/></svg></span> Sales Reporting</li>
+              </ul>
+              <div class="trio-visual trio-visual-crm" aria-hidden="true">
+                <svg class="crm-illust" viewBox="0 0 290 130" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="crmChartGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#0b4d3a" stop-opacity=".30"/>
+                      <stop offset="100%" stop-color="#0b4d3a" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+
+                  <!-- Monitor body -->
+                  <rect x="20" y="8" width="195" height="92" rx="7" fill="#fff" stroke="rgba(11,77,58,.20)" stroke-width="1.4"/>
+                  <!-- Window chrome bar -->
+                  <line x1="20" y1="22" x2="215" y2="22" stroke="rgba(11,77,58,.14)" stroke-width="1"/>
+                  <circle cx="28" cy="15" r="1.5" fill="rgba(11,77,58,.32)"/>
+                  <circle cx="34" cy="15" r="1.5" fill="rgba(11,77,58,.22)"/>
+                  <circle cx="40" cy="15" r="1.5" fill="rgba(11,77,58,.22)"/>
+                  <!-- Sidebar label lines -->
+                  <line x1="60" y1="14" x2="80" y2="14" stroke="rgba(11,77,58,.25)" stroke-width="1.4" stroke-linecap="round"/>
+                  <line x1="86" y1="14" x2="100" y2="14" stroke="rgba(11,77,58,.18)" stroke-width="1.4" stroke-linecap="round"/>
+
+                  <!-- Chart area fill -->
+                  <path d="M30 80 L52 72 L74 65 L96 56 L118 48 L140 38 L162 32 L184 28 L205 22 L205 92 L30 92 Z"
+                        fill="url(#crmChartGrad)"/>
+                  <!-- Chart line -->
+                  <path d="M30 80 L52 72 L74 65 L96 56 L118 48 L140 38 L162 32 L184 28 L205 22"
+                        fill="none" stroke="#0b4d3a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <!-- Highlight dot -->
+                  <circle cx="205" cy="22" r="8" fill="rgba(11,77,58,.18)"/>
+                  <circle cx="205" cy="22" r="3.5" fill="#0b4d3a"/>
+
+                  <!-- Monitor stand -->
+                  <path d="M105 100 h25 l-3 10 h-19 z" fill="rgba(11,77,58,.18)"/>
+                  <rect x="92" y="110" width="51" height="4" rx="2" fill="rgba(11,77,58,.22)"/>
+
+                  <!-- Floating callout card on the right -->
+                  <g>
+                    <rect x="200" y="48" width="78" height="52" rx="8" fill="#fff" stroke="rgba(11,77,58,.22)" stroke-width="1.4"/>
+                    <circle cx="212" cy="62" r="4.5" fill="rgba(11,77,58,.18)"/>
+                    <line x1="220" y1="60" x2="268" y2="60" stroke="rgba(11,77,58,.40)" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="220" y1="66" x2="252" y2="66" stroke="rgba(11,77,58,.20)" stroke-width="1.6" stroke-linecap="round"/>
+                    <line x1="208" y1="80" x2="270" y2="80" stroke="rgba(11,77,58,.20)" stroke-width="1.6" stroke-linecap="round"/>
+                    <line x1="208" y1="86" x2="258" y2="86" stroke="rgba(11,77,58,.15)" stroke-width="1.6" stroke-linecap="round"/>
+                    <line x1="208" y1="92" x2="264" y2="92" stroke="rgba(11,77,58,.15)" stroke-width="1.6" stroke-linecap="round"/>
+                  </g>
+                </svg>
+              </div>
+              <a class="btn btn-primary btn-small" href="#contact">
+                Get CRM Demo <span aria-hidden="true">→</span>
+              </a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 07 + 08 ROW -->
+      <section class="section section-band" id="pricing">
+        <div class="container split-grid">
+          <div class="split-left">
+            <div class="section-num">07</div>
+            <h2 class="section-title">Most Deals Are<br />Lost In Follow-Ups</h2>
+            <ul class="bullet-stack">
+              <li><span class="bs-i" aria-hidden="true"><svg class="ic"><use href="#i-whatsapp"/></svg></span> Automated WhatsApp follow-ups</li>
+              <li><span class="bs-i" aria-hidden="true"><svg class="ic"><use href="#i-email"/></svg></span> Email drip campaigns</li>
+              <li><span class="bs-i" aria-hidden="true"><svg class="ic"><use href="#i-refresh"/></svg></span> Re-engagement campaigns</li>
+              <li><span class="bs-i" aria-hidden="true"><svg class="ic"><use href="#i-alert"/></svg></span> Missed lead recovery</li>
+              <li><span class="bs-i" aria-hidden="true"><svg class="ic"><use href="#i-flame"/></svg></span> Cold lead reactivation</li>
+              <li><span class="bs-i" aria-hidden="true"><svg class="ic"><use href="#i-alert-bell"/></svg></span> Smart reminders</li>
+              <li><span class="bs-i" aria-hidden="true"><svg class="ic"><use href="#i-sparkle"/></svg></span> Personalized messaging</li>
+            </ul>
+            <a class="btn btn-primary btn-small" href="#contact">
+              Recover Lost Leads <span aria-hidden="true">→</span>
+            </a>
+          </div>
+
+          <div class="split-right">
+            <div class="section-num">08</div>
+            <h2 class="section-title">Why Businesses Pay ₹34,999/Month</h2>
+            <p class="section-lead">Because replacing all of this separately would cost significantly more.</p>
+
+            <div class="cost-table">
+              <div class="cost-head">
+                <div>Included System</div>
+                <div class="cost-right">Market Cost</div>
+                <div>Included System</div>
+                <div class="cost-right">Market Cost</div>
+              </div>
+              <div class="cost-row">
+                <div>AI WhatsApp Automation</div>
+                <div class="cost-right cost-amt">₹15,000+</div>
+                <div>AI Follow-Up Systems</div>
+                <div class="cost-right cost-amt">₹12,000+</div>
+              </div>
+              <div class="cost-row">
+                <div>Instagram Automation</div>
+                <div class="cost-right cost-amt">₹10,000+</div>
+                <div>Email Automation</div>
+                <div class="cost-right cost-amt">₹8,000+</div>
+              </div>
+              <div class="cost-row">
+                <div>Facebook Automation</div>
+                <div class="cost-right cost-amt">₹10,000+</div>
+                <div>AI Chat Agent</div>
+                <div class="cost-right cost-amt">₹15,000+</div>
+              </div>
+              <div class="cost-row">
+                <div>CRM Software</div>
+                <div class="cost-right cost-amt">₹8,000+</div>
+                <div>Performance Marketing Support</div>
+                <div class="cost-right cost-amt">₹25,000+</div>
+              </div>
+              <div class="cost-row">
+                <div>Unlimited CRM Users</div>
+                <div class="cost-right cost-amt">₹5,000+</div>
+                <div>Automation Setup &amp; Maintenance</div>
+                <div class="cost-right cost-amt">₹20,000+</div>
+              </div>
+            </div>
+
+            <p class="section-lead">
+              Instead of hiring more staff, managing multiple software tools, and handling follow-ups manually — you get one centralized AI growth system.
+            </p>
+
+            <a
+              class="btn btn-primary btn-small"
+              href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ3k31eKNRs1ull4ITM9bp3lYEr5nJLL-Rbe14uJF81txizuwjqC19rzINTRtFEWK6wXkfZaaFQ_"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Book Free Consultation <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 09 — FINAL CTA -->
+      <section class="section" id="about">
+        <div class="container final-grid">
+          <div class="final-left">
+            <div class="section-num">09</div>
+            <h2 class="section-title">Your Competitors Are<br />Already Moving Faster</h2>
+            <p class="section-lead">
+              The businesses that respond faster, follow up consistently, automate operations, and nurture leads better will dominate the next decade.
+            </p>
+            <p class="section-lead">
+              The rest will continue losing leads manually.
+            </p>
+          </div>
+
+          <div class="final-mid">
+            <h3 class="final-mid-title">With CWA You Get:</h3>
+            <div class="feat-grid">
+              <div class="feat"><span class="feat-i feat-i-wa" aria-hidden="true"><svg class="ic"><use href="#i-whatsapp"/></svg></span> AI WhatsApp Automation</div>
+              <div class="feat"><span class="feat-i feat-i-ig" aria-hidden="true"><svg class="ic"><use href="#i-instagram"/></svg></span> AI Instagram Automation</div>
+              <div class="feat"><span class="feat-i feat-i-fb" aria-hidden="true"><svg class="ic"><use href="#i-facebook"/></svg></span> AI Facebook Automation</div>
+              <div class="feat"><span class="feat-i feat-i-em" aria-hidden="true"><svg class="ic"><use href="#i-email"/></svg></span> AI Email Automation</div>
+              <div class="feat"><span class="feat-i" aria-hidden="true"><svg class="ic"><use href="#i-bot"/></svg></span> AI Chat Agent</div>
+              <div class="feat"><span class="feat-i" aria-hidden="true"><svg class="ic"><use href="#i-refresh"/></svg></span> Automated Follow-Ups</div>
+              <div class="feat"><span class="feat-i" aria-hidden="true"><svg class="ic"><use href="#i-crm"/></svg></span> CRM System Included</div>
+              <div class="feat"><span class="feat-i" aria-hidden="true"><svg class="ic"><use href="#i-users"/></svg></span> Unlimited CRM Users</div>
+              <div class="feat"><span class="feat-i" aria-hidden="true"><svg class="ic"><use href="#i-infinity"/></svg></span> Unlimited WhatsApp Connections</div>
+              <div class="feat"><span class="feat-i" aria-hidden="true"><svg class="ic"><use href="#i-calendar"/></svg></span> Site Visit Booking System</div>
+              <div class="feat"><span class="feat-i" aria-hidden="true"><svg class="ic"><use href="#i-target"/></svg></span> Lead Qualification System</div>
+              <div class="feat"><span class="feat-i" aria-hidden="true"><svg class="ic"><use href="#i-rocket"/></svg></span> FREE Performance Marketing Support</div>
+            </div>
+          </div>
+
+          <aside class="final-cta" id="contact" aria-label="Get started">
+            <h3 class="final-cta-title">
+              Ready To Automate Your<br />Real Estate Business?
+            </h3>
+            <a
+              class="btn btn-primary btn-block"
+              href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ3k31eKNRs1ull4ITM9bp3lYEr5nJLL-Rbe14uJF81txizuwjqC19rzINTRtFEWK6wXkfZaaFQ_"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Book Free Strategy Call <span aria-hidden="true">→</span>
+            </a>
+            <a
+              class="btn btn-wa btn-block"
+              href="https://api.whatsapp.com/send?phone=919517710848&text=I%20want%20to%20automate%20my%20real%20estate%20business%21"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span class="btn-wa-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><use href="#i-whatsapp"/></svg>
+              </span>
+              Connect On WhatsApp
+            </a>
+            <p class="final-cta-foot">
+              Trusted by Real Estate Developers,<br />Builders &amp; Agents Across India.
+            </p>
+            <div class="trust-row">
+              <!-- Placeholder photos. Replace with actual customer/testimonial photos before going live. -->
+              <span class="trust-avatars" aria-hidden="true">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="" loading="lazy" />
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="" loading="lazy" />
+                <img src="https://randomuser.me/api/portraits/men/68.jpg" alt="" loading="lazy" />
+                <img src="https://randomuser.me/api/portraits/women/52.jpg" alt="" loading="lazy" />
+              </span>
+              <span class="trust-text">500+ Businesses Trust CWA</span>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-brand">
+          <img class="footer-logo" src="./assets/logo.png" alt="Consult With Ankush" />
+        </div>
+        <div class="footer-line">AI AUTOMATION SYSTEMS FOR REAL ESTATE BUSINESSES</div>
+        <div class="footer-copy">© 2026 Consult With Ankush. All rights reserved.</div>
+      </div>
+    </footer>
+
+    <script>
+      (() => {
+        const nav = document.getElementById("site-nav");
+        const toggle = document.querySelector(".nav-toggle");
+        if (!nav || !toggle) return;
+        const setOpen = (open) => {
+          toggle.setAttribute("aria-expanded", String(open));
+          nav.classList.toggle("open", open);
+        };
+        toggle.addEventListener("click", () => {
+          setOpen(toggle.getAttribute("aria-expanded") !== "true");
+        });
+        nav.addEventListener("click", (e) => {
+          if (e.target instanceof HTMLAnchorElement) setOpen(false);
+        });
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") setOpen(false);
+        });
+      })();
+    </script>
+  </body>
+</html>
