@@ -1,0 +1,6 @@
+.env
+.env.bak
+google-credentials.json
+backend/__pycache__/
+__pycache__/
+.vscode/
