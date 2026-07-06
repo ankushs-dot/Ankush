@@ -22,6 +22,15 @@
   .brand h1{font-size:17px;margin:0}
   .brand p{margin:0;font-size:12px;color:var(--muted)}
   .mode-pill{font-size:12px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);color:var(--muted);display:flex;gap:8px;align-items:center}
+  .topbar-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .user-chip{display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--text);background:var(--panel);border:1px solid var(--line);padding:5px 7px 5px 5px;border-radius:999px}
+  .user-chip .uava{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--saffron),var(--accent));color:#1a0f2e;display:grid;place-items:center;font-weight:800;font-size:12px}
+  .signout{background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:5px 11px;font-size:12px;cursor:pointer;transition:.15s}
+  .signout:hover{border-color:var(--accent);color:var(--text)}
+  #preauth{position:fixed;inset:0;background:var(--bg);z-index:9999;display:grid;place-items:center;color:var(--muted);font-size:14px}
+  .mini.save{border-color:var(--accent);color:var(--text);font-weight:700}
+  .mini.save:hover{background:var(--accent);color:#1a0f2e}
+  .mini.save.done{border-color:var(--green);color:var(--green);background:transparent}
   .dot{width:8px;height:8px;border-radius:50%;background:var(--accent-2)}
   .dot.live{background:var(--green)}
   .wrap{max-width:1180px;margin:0 auto;padding:22px 26px 80px}
@@ -111,14 +120,47 @@
   .vout{font-size:11px;color:var(--accent-2);font-weight:700}
   @media(max-width:760px){.pipeline{grid-template-columns:1fr 1fr}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="auth-config.js"></script>
 </head>
 <body>
+<div id="preauth">Loading your workspace...</div>
+<script>
+/* ---- Auth guard: require a Supabase session to view the dashboard ---- */
+(async function(){
+  var gate=document.getElementById('preauth');
+  if(!window.SUPABASE_URL || String(window.SUPABASE_ANON_KEY||'').indexOf('PASTE_')===0){
+    if(gate) gate.remove();
+    console.warn('Supabase not configured yet - auth disabled. Paste your anon key in auth-config.js.');
+    return;
+  }
+  try{
+    window.__sb = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+    var res = await window.__sb.auth.getSession();
+    var session = res.data && res.data.session;
+    if(!session){ location.replace('login.html'); return; }
+    var u = session.user;
+    var nm = (u.user_metadata && u.user_metadata.full_name) || u.email || 'Account';
+    var un = document.getElementById('userName'); if(un) un.textContent = nm;
+    var av = document.getElementById('uAva'); if(av) av.textContent = (nm[0]||'S').toUpperCase();
+    if(gate) gate.remove();
+    window.__sb.auth.onAuthStateChange(function(_e, s){ if(!s) location.replace('login.html'); });
+  }catch(e){ if(gate) gate.remove(); console.error('Auth error:', e); }
+})();
+function signOut(){
+  if(window.__sb){ window.__sb.auth.signOut().then(function(){ location.replace('login.html'); }); }
+  else { location.replace('login.html'); }
+}
+</script>
 <header>
   <div class="brand">
     <div class="logo">S</div>
     <div><h1 id="brandName">Sineva Content Engine</h1><p>Trends &rarr; AI scripts &rarr; Manager approval &rarr; Sheet</p></div>
   </div>
-  <div class="mode-pill"><span class="dot" id="modeDot"></span><span id="modeText">Connecting...</span></div>
+  <div class="topbar-right">
+    <div class="mode-pill"><span class="dot" id="modeDot"></span><span id="modeText">Connecting...</span></div>
+    <div class="user-chip"><span class="uava" id="uAva">S</span><span id="userName">Account</span><button class="signout" onclick="signOut()">Sign out</button></div>
+  </div>
 </header>
 
 <div class="wrap">
@@ -126,6 +168,7 @@
     <button class="tab" id="tabTrend" onclick="showTab('trend')">&#128293; Trending Now</button>
     <button class="tab active" id="tabGen" onclick="showTab('gen')">&#9889; Generate</button>
     <button class="tab" id="tabLib" onclick="showTab('lib')">&#128218; Examples</button>
+    <button class="tab" id="tabSaved" onclick="showTab('saved')">&#128190; Saved</button>
   </div>
 
   <!-- ============ TRENDING NOW ============ -->
@@ -217,6 +260,15 @@
     <div class="toolbar" id="libChips"></div>
     <div id="libResults"></div>
   </div>
+
+  <!-- ============ SAVED ============ -->
+  <div id="savedView" class="hidden">
+    <div class="panel">
+      <h2>Your saved scripts</h2>
+      <p class="sub">Scripts you saved from Generate. Private to your account &mdash; only you can see these.</p>
+    </div>
+    <div id="savedResults"><div class="empty"><p>Loading...</p></div></div>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -264,12 +316,15 @@ function showTab(t){
   document.getElementById("trendView").classList.toggle("hidden",t!=="trend");
   document.getElementById("genView").classList.toggle("hidden",t!=="gen");
   document.getElementById("libView").classList.toggle("hidden",t!=="lib");
+  document.getElementById("savedView").classList.toggle("hidden",t!=="saved");
   document.getElementById("tabTrend").classList.toggle("active",t==="trend");
   document.getElementById("tabGen").classList.toggle("active",t==="gen");
   document.getElementById("tabLib").classList.toggle("active",t==="lib");
+  document.getElementById("tabSaved").classList.toggle("active",t==="saved");
   checkBackend();
   if(t==="gen")setTimeout(refreshSheetStatus,300);
   if(t==="lib")setTimeout(loadUserExamples,200);
+  if(t==="saved")setTimeout(loadSaved,100);
 }
 function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2200)}
 function esc(s){return(s==null?"":String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
@@ -281,6 +336,69 @@ function ageTxt(d){d=parseFloat(d)||0;if(d<1)return "today";if(d<2)return "1 day
 function doCopy(t){if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(()=>toast("Copied!")).catch(()=>fallbackCopy(t));}else fallbackCopy(t);}
 function fallbackCopy(t){const ta=document.createElement("textarea");ta.value=t;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand("copy");toast("Copied!")}catch(e){toast("Press Ctrl+C")}document.body.removeChild(ta);}
 function copyCard(i,kind){const d=CARDREG[i];if(!d)return;let t="";if(kind==="all")t="HOOK:\n"+(d.hook||"")+"\n\nSCRIPT:\n"+(d.script||"")+"\n\nCAPTION:\n"+(d.caption||"")+"\n\nHASHTAGS:\n"+(d.hashtags||"");else if(kind==="script")t=d.script||"";else if(kind==="caption")t=d.caption||"";else t=d.hashtags||"";doCopy(t);}
+
+/* ---------- SAVED (per-user, stored in Supabase) ---------- */
+async function saveScript(i, btn){
+  const d = CARDREG[i]; if(!d) return;
+  if(!window.__sb){ toast("Sign in to save scripts"); return; }
+  if(btn){ btn.disabled=true; btn.innerHTML="Saving..."; }
+  try{
+    const sc = parseInt(d.score);
+    const { error } = await window.__sb.from('saved_scripts').insert({
+      niche: LAST_NICHE || d.category || null,
+      topic: d.topic || null, angle: d.angle || null, hook: d.hook || null,
+      script: d.script || null, caption: d.caption || null, hashtags: d.hashtags || null,
+      score: isNaN(sc) ? null : sc
+    });
+    if(error) throw error;
+    toast("Saved to your library");
+    if(btn){ btn.innerHTML="&#10003; Saved"; btn.classList.add("done"); }
+  }catch(e){
+    toast(e.message || "Could not save");
+    if(btn){ btn.disabled=false; btn.innerHTML="&#128190; Save"; }
+  }
+}
+async function loadSaved(){
+  const wrap = document.getElementById("savedResults"); if(!wrap) return;
+  if(!window.__sb){ wrap.innerHTML='<div class="empty"><p>Sign in to see your saved scripts.</p></div>'; return; }
+  wrap.innerHTML='<div class="empty"><p><span class="spinner" style="display:inline-block;vertical-align:middle"></span> &nbsp;Loading your saved scripts...</p></div>';
+  try{
+    const { data, error } = await window.__sb.from('saved_scripts').select('*').order('created_at',{ascending:false});
+    if(error) throw error;
+    renderSaved(data || []);
+  }catch(e){
+    wrap.innerHTML='<div class="empty"><p>'+esc(e.message || "Could not load saved scripts.")+'<br><span style="font-size:12px">Make sure the saved_scripts table exists in Supabase.</span></p></div>';
+  }
+}
+function renderSaved(list){
+  const wrap = document.getElementById("savedResults");
+  if(!list.length){ wrap.innerHTML='<div class="empty"><p>No saved scripts yet. Go to <b>Generate</b>, then hit <b>Save</b> on any script to keep it here.</p></div>'; return; }
+  wrap.innerHTML='<div class="toolbar"><span style="font-size:13px;color:var(--muted)">Your saved scripts ('+list.length+') &mdash; private to your account</span></div>'+
+    '<div class="cards">'+list.map(d=>{
+      const i=CARDREG.push(d)-1;
+      return '<div class="card">'+
+        '<div class="top"><span class="tag">'+esc(d.niche||"Saved")+'</span>'+(d.score?'<span class="score">Score '+esc(d.score)+'</span>':'')+'</div>'+
+        '<h4>'+esc(d.topic||"Untitled")+'</h4>'+
+        (d.angle?'<div class="angle">'+esc(d.angle)+'</div>':'')+
+        (d.hook?'<div class="blk"><label>Hook</label><div class="hook">'+esc(d.hook)+'</div></div>':'')+
+        '<div class="blk"><label>Script</label><div class="script-box">'+esc(d.script)+'</div></div>'+
+        (d.caption?'<div class="blk"><label>Caption</label><div class="caption">'+esc(d.caption)+'</div></div>':'')+
+        (d.hashtags?'<div class="blk"><label>Hashtags</label><div class="tags">'+esc(d.hashtags)+'</div></div>':'')+
+        '<div class="actions">'+
+          '<button class="mini" onclick="copyCard('+i+',&quot;all&quot;)">Copy full post</button>'+
+          '<button class="mini" onclick="copyCard('+i+',&quot;script&quot;)">Script</button>'+
+          '<button class="mini" onclick="deleteSaved(&quot;'+esc(d.id)+'&quot;)">&#128190; Unsave</button>'+
+        '</div></div>';
+    }).join("")+'</div>';
+}
+async function deleteSaved(id){
+  if(!window.__sb) return;
+  try{
+    const { error } = await window.__sb.from('saved_scripts').delete().eq('id', id);
+    if(error) throw error;
+    toast("Deleted"); loadSaved();
+  }catch(e){ toast(e.message || "Could not delete"); }
+}
 
 /* ---------- TRENDING ---------- */
 function toggleCustom(){document.getElementById("customWrap").classList.toggle("hidden",document.getElementById("tRange").value!=="custom");}
@@ -363,6 +481,7 @@ function cardHTML(d,label){
       '<button class="mini" onclick="copyCard('+i+',&quot;script&quot;)">Script</button>'+
       '<button class="mini" onclick="copyCard('+i+',&quot;caption&quot;)">Caption</button>'+
       '<button class="mini" onclick="copyCard('+i+',&quot;tags&quot;)">Tags</button>'+
+      '<button class="mini save" onclick="saveScript('+i+',this)">&#128190; Save</button>'+
     '</div></div>';
 }
 function renderLib(){

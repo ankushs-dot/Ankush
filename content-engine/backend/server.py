@@ -99,6 +99,12 @@ class Handler(BaseHTTPRequestHandler):
             self._json(200, sheets.status(niche))
         elif path in ("/", "/index.html"):
             self._file("index.html", "text/html; charset=utf-8")
+        elif path in ("/login", "/login.html"):
+            self._file("login.html", "text/html; charset=utf-8")
+        elif path in ("/signup", "/signup.html"):
+            self._file("signup.html", "text/html; charset=utf-8")
+        elif path == "/auth-config.js":
+            self._file("auth-config.js", "application/javascript; charset=utf-8")
         elif path == "/examples":
             niche = self._query().get("niche", [""])[0]
             self._json(200, {"examples": agents.load_user_examples(niche)})
