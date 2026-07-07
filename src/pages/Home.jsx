@@ -5,7 +5,7 @@ import "../styles.css";
 export default function Home() {
   const [navOpen, setNavOpen] = useState(false);
   const bookingUrl =
-    "https://api.hiighvance.com/widget/booking/tEkQ1ShbtAIklcrJBH2b";
+    "https://link.yourmarketingai.com/widget/booking/tEkQ1ShbtAIklcrJBH2b";
 
   const navClassName = useMemo(() => {
     return navOpen ? "nav open" : "nav";

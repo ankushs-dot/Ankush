@@ -90,7 +90,7 @@ export default function RealEstateUSA() {
             <a className="nav-link" href="#contact">Contact</a>
             <a
               className="nav-cta-mobile"
-              href="https://api.hiighvance.com/widget/booking/tEkQ1ShbtAIklcrJBH2b"
+              href="https://link.yourmarketingai.com/widget/booking/tEkQ1ShbtAIklcrJBH2b"
               target="_blank"
               rel="noreferrer"
               onClick={(e) => e.stopPropagation()}
@@ -100,7 +100,7 @@ export default function RealEstateUSA() {
           <div className="header-actions">
             <a
               className="btn btn-primary btn-small"
-              href="https://api.hiighvance.com/widget/booking/tEkQ1ShbtAIklcrJBH2b"
+              href="https://link.yourmarketingai.com/widget/booking/tEkQ1ShbtAIklcrJBH2b"
               target="_blank"
               rel="noreferrer"
             >
@@ -204,7 +204,7 @@ export default function RealEstateUSA() {
               <div className="hero-cta">
                 <a
                   className="btn btn-primary"
-                  href="https://api.hiighvance.com/widget/booking/tEkQ1ShbtAIklcrJBH2b"
+                  href="https://link.yourmarketingai.com/widget/booking/tEkQ1ShbtAIklcrJBH2b"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -709,7 +709,7 @@ export default function RealEstateUSA() {
               <div className="final-cta-row">
                 <a
                   className="btn btn-primary"
-                  href="https://api.hiighvance.com/widget/booking/tEkQ1ShbtAIklcrJBH2b"
+                  href="https://link.yourmarketingai.com/widget/booking/tEkQ1ShbtAIklcrJBH2b"
                   target="_blank"
                   rel="noreferrer"
                 >Book Free Strategy Call <span aria-hidden="true">→</span></a>

@@ -87,7 +87,7 @@ export default function RealEstateIndia() {
             <a className="nav-link" href="#contact">Contact</a>
             <a
               className="nav-cta-mobile"
-              href="https://api.hiighvance.com/widget/booking/tEkQ1ShbtAIklcrJBH2b"
+              href="https://link.yourmarketingai.com/widget/booking/tEkQ1ShbtAIklcrJBH2b"
               target="_blank"
               rel="noreferrer"
               onClick={(e) => e.stopPropagation()}
@@ -97,7 +97,7 @@ export default function RealEstateIndia() {
           <div className="header-actions">
             <a
               className="btn btn-primary btn-small"
-              href="https://api.hiighvance.com/widget/booking/tEkQ1ShbtAIklcrJBH2b"
+              href="https://link.yourmarketingai.com/widget/booking/tEkQ1ShbtAIklcrJBH2b"
               target="_blank"
               rel="noreferrer"
             >
@@ -190,7 +190,7 @@ export default function RealEstateIndia() {
               <div className="hero-cta">
                 <a
                   className="btn btn-primary"
-                  href="https://api.hiighvance.com/widget/booking/tEkQ1ShbtAIklcrJBH2b"
+                  href="https://link.yourmarketingai.com/widget/booking/tEkQ1ShbtAIklcrJBH2b"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -638,7 +638,7 @@ export default function RealEstateIndia() {
 
               <a
                 className="btn btn-primary btn-small"
-                href="https://api.hiighvance.com/widget/booking/tEkQ1ShbtAIklcrJBH2b"
+                href="https://link.yourmarketingai.com/widget/booking/tEkQ1ShbtAIklcrJBH2b"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -686,7 +686,7 @@ export default function RealEstateIndia() {
               </h3>
               <a
                 className="btn btn-primary btn-block"
-                href="https://api.hiighvance.com/widget/booking/tEkQ1ShbtAIklcrJBH2b"
+                href="https://link.yourmarketingai.com/widget/booking/tEkQ1ShbtAIklcrJBH2b"
                 target="_blank"
                 rel="noreferrer"
               >
