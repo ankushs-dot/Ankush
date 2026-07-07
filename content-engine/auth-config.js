@@ -12,3 +12,12 @@ window.SUPABASE_ANON_KEY =
 
 /* After a user signs in, send them here: */
 window.APP_HOME = "index.html";
+
+/* -----------------------------------------------------------------
+   API location (the Python engine that does Generate / Trends / Sheets).
+   - Leave BLANK when the dashboard and the Python engine are on the SAME address.
+   - When the pages are mixed into the static website but the engine runs
+     elsewhere (e.g. Render), set this to that engine's URL, no trailing slash:
+       window.BACKEND_URL = "https://sineva-content-engine.onrender.com";
+------------------------------------------------------------------*/
+window.BACKEND_URL = "";

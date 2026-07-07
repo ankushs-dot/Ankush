@@ -3,11 +3,11 @@ Content Engine - niche-aware 4-agent pipeline.
 
 Agent 1 (Trend Scraper) : YouTube Data API pull WITH stats, links, thumbnails
 Agent 2 (Viral Analyzer): outlier math -> WORKS / AVERAGE / WEAK labels + keywords
-Agent 3 (Script Writer) : Claude writes a timed 25s script in the niche's voice
-Agent 4 (Hook + Caption): Claude writes hook, caption, hashtags
+Agent 3 (Script Writer) : Gemini writes a timed 25s script in the niche's voice
+Agent 4 (Hook + Caption): Gemini writes hook, caption, hashtags
 
 Niches are defined in data/niches.json (search terms, voice, sheet, manager).
-Keys (.env): ANTHROPIC_API_KEY (writing), YOUTUBE_API_KEY (trends). Degrades safely.
+Keys (.env): GEMINI_API_KEY (writing, free from Google AI Studio), YOUTUBE_API_KEY (trends). Degrades safely.
 """
 
 import os
@@ -19,16 +19,11 @@ import urllib.parse
 import urllib.request
 
 try:
-    from anthropic import Anthropic
-except Exception:
-    Anthropic = None
-
-try:
     from pytrends.request import TrendReq
 except Exception:
     TrendReq = None
 
-MODEL = os.getenv("ANTHROPIC_MODEL", "claude-sonnet-4-6")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 _DATA = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
 _LIB_PATH = os.path.join(_DATA, "content_library.json")
 _NICHES_PATH = os.path.join(_DATA, "niches.json")
@@ -68,11 +63,8 @@ def niche_by_name(name):
         "style": _DEFAULT_STYLE, "sheet_id": "", "manager_email": ""}
 
 
-def _client():
-    key = os.getenv("ANTHROPIC_API_KEY")
-    if not key or Anthropic is None:
-        return None
-    return Anthropic(api_key=key)
+def _gemini_key():
+    return os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY") or ""
 
 
 def load_user_examples(niche_name=None):
@@ -228,8 +220,7 @@ def extract_keywords(posts, top_n=14):
 # AGENTS 3 + 4 - Script Writer + Hook/Caption (Claude, niche voice)
 # ===========================================================================
 def generate(topic, niche_name, count, analysis=None, trend_terms=None):
-    c = _client()
-    if not c:
+    if not _gemini_key():
         return None
     nc = niche_by_name(niche_name)
     style = nc.get("style", _DEFAULT_STYLE)
@@ -281,7 +272,7 @@ Return ONLY valid JSON, no markdown, exactly:
 }
 (score = 0-100 integer predicting reach potential)""" % (style, ex_text, signal, count, ask, niche_name)
 
-    txt = _ask(c, prompt, max_tokens=4000)
+    txt = _ask(prompt, max_tokens=8000)
     data = _extract_json(txt, default=None)
     if not data or "ideas" not in data:
         return None
@@ -297,10 +288,29 @@ def _human(n):
     return str(n)
 
 
-def _ask(client, prompt, max_tokens=2000):
-    msg = client.messages.create(model=MODEL, max_tokens=max_tokens,
-                                 messages=[{"role": "user", "content": prompt}])
-    return "".join(b.text for b in msg.content if getattr(b, "type", "") == "text")
+def _ask(prompt, max_tokens=2000):
+    key = _gemini_key()
+    if not key:
+        return ""
+    url = ("https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent"
+           % GEMINI_MODEL)
+    payload = json.dumps({
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {"temperature": 0.9, "maxOutputTokens": max_tokens},
+    }).encode("utf-8")
+    req = urllib.request.Request(
+        url, data=payload, method="POST",
+        headers={"Content-Type": "application/json", "x-goog-api-key": key})
+    try:
+        with urllib.request.urlopen(req, timeout=60) as r:
+            data = json.loads(r.read().decode())
+    except Exception:
+        return ""
+    try:
+        parts = data.get("candidates", [{}])[0].get("content", {}).get("parts", [])
+        return "".join(p.get("text", "") for p in parts)
+    except Exception:
+        return ""
 
 
 def _extract_json(text, default=None):

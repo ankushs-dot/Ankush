@@ -88,7 +88,8 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         path = self.path.split("?", 1)[0]
         if path == "/health":
-            self._json(200, {"status": "ok", "ai": bool(os.getenv("ANTHROPIC_API_KEY")),
+            self._json(200, {"status": "ok",
+                             "ai": bool(os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")),
                              "youtube": bool(os.getenv("YOUTUBE_API_KEY"))})
         elif path == "/niches":
             niches, brand = agents.load_niches()
@@ -162,7 +163,7 @@ class Handler(BaseHTTPRequestHandler):
             analysis = agents.analyze_posts(posts)
             result = agents.generate(topic, niche, count, analysis, trend_terms)
             if not result:
-                self._json(200, {"ideas": [], "note": "No API key set. Add ANTHROPIC_API_KEY to .env."})
+                self._json(200, {"ideas": [], "note": "No API key set. Add GEMINI_API_KEY to .env."})
                 return
             result["meta"] = {"videos_analyzed": analysis.get("videos_analyzed", 0),
                               "rising_terms": trend_terms[:8],
@@ -232,7 +233,7 @@ def main():
     print("=" * 56)
     print("  Dashboard:   http://localhost:%d/" % PORT)
     print("  Niches:      %s" % ", ".join(n.get("name", "") for n in niches))
-    print("  AI key set:  %s" % ("YES" if os.getenv("ANTHROPIC_API_KEY") else "NO"))
+    print("  Gemini key:  %s" % ("YES" if (os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")) else "NO"))
     print("  YouTube key: %s" % ("YES" if os.getenv("YOUTUBE_API_KEY") else "no"))
     print("  Press Ctrl+C to stop.")
     print("=" * 56)

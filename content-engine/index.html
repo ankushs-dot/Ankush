@@ -277,7 +277,8 @@ function signOut(){
 <script src="data/library.js"></script>
 <script>
 let BACKEND_URL;
-if(location.protocol==="file:") BACKEND_URL="http://localhost:8000";
+if(window.BACKEND_URL) BACKEND_URL=window.BACKEND_URL;            /* set in auth-config.js when the API is on another host (e.g. Render) */
+else if(location.protocol==="file:") BACKEND_URL="http://localhost:8000";
 else if(location.port==="5500") BACKEND_URL="http://"+location.hostname+":8000";
 else BACKEND_URL=location.origin;
 
