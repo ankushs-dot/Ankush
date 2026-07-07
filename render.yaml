@@ -1,0 +1,23 @@
+# Render Blueprint for the Sineva Content Engine (Python backend).
+# In Render: New + -> Blueprint -> pick this repo. Render reads this file,
+# then asks you to paste the secret keys (marked sync:false) once.
+services:
+  - type: web
+    name: sineva-content-engine
+    runtime: python
+    plan: free
+    rootDir: content-engine
+    buildCommand: pip install -r requirements.txt
+    startCommand: python backend/server.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.9"
+      - key: ANTHROPIC_MODEL
+        value: claude-sonnet-5
+      # Secrets: Render will prompt for these (not stored in the repo).
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: YOUTUBE_API_KEY
+        sync: false
+      - key: SHEET_ID
+        sync: false
