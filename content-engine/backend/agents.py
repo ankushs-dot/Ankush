@@ -23,7 +23,10 @@ try:
 except Exception:
     TrendReq = None
 
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+GEMINI_MODELS = [m.strip() for m in os.getenv(
+    "GEMINI_MODEL",
+    "gemini-flash-lite-latest,gemini-flash-latest,gemini-2.0-flash"
+).split(",") if m.strip()]
 _DATA = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
 _LIB_PATH = os.path.join(_DATA, "content_library.json")
 _NICHES_PATH = os.path.join(_DATA, "niches.json")
@@ -292,25 +295,27 @@ def _ask(prompt, max_tokens=2000):
     key = _gemini_key()
     if not key:
         return ""
-    url = ("https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent"
-           % GEMINI_MODEL)
     payload = json.dumps({
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {"temperature": 0.9, "maxOutputTokens": max_tokens},
     }).encode("utf-8")
-    req = urllib.request.Request(
-        url, data=payload, method="POST",
-        headers={"Content-Type": "application/json", "x-goog-api-key": key})
-    try:
-        with urllib.request.urlopen(req, timeout=60) as r:
-            data = json.loads(r.read().decode())
-    except Exception:
-        return ""
-    try:
-        parts = data.get("candidates", [{}])[0].get("content", {}).get("parts", [])
-        return "".join(p.get("text", "") for p in parts)
-    except Exception:
-        return ""
+    # Try each configured model in order; skip ones that are retired/busy/quota-limited.
+    for model in GEMINI_MODELS:
+        url = ("https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent"
+               % model)
+        req = urllib.request.Request(
+            url, data=payload, method="POST",
+            headers={"Content-Type": "application/json", "x-goog-api-key": key})
+        try:
+            with urllib.request.urlopen(req, timeout=60) as r:
+                data = json.loads(r.read().decode())
+            parts = data.get("candidates", [{}])[0].get("content", {}).get("parts", [])
+            txt = "".join(p.get("text", "") for p in parts)
+            if txt:
+                return txt
+        except Exception:
+            continue
+    return ""
 
 
 def _extract_json(text, default=None):
