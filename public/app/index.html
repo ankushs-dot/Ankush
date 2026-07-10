@@ -49,6 +49,36 @@ window.addEventListener('DOMContentLoaded',paintThemeBtn);
   .signout{background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:5px 11px;font-size:12px;cursor:pointer;transition:.15s}
   .signout:hover{border-color:var(--accent);color:var(--text)}
   #preauth{position:fixed;inset:0;background:var(--bg);z-index:9999;display:grid;place-items:center;color:var(--muted);font-size:14px}
+
+  /* ---- paywall ---- */
+  #paywall{position:fixed;inset:0;z-index:9998;display:none;place-items:center;padding:20px;
+    background:color-mix(in srgb,var(--bg) 55%,transparent);backdrop-filter:blur(14px)}
+  #paywall.show{display:grid}
+  .pw-card{width:min(430px,94vw);background:var(--panel);border:1px solid var(--line);border-radius:18px;
+    padding:30px 28px 26px;box-shadow:0 30px 80px rgba(15,23,42,.25);text-align:center;
+    animation:pwrise .5s cubic-bezier(.2,.8,.2,1) both}
+  @keyframes pwrise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+  .pw-badge{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+    color:#fff;background:linear-gradient(135deg,#dc2626,#f97316);padding:5px 12px;border-radius:999px;margin-bottom:14px}
+  .pw-card h2{margin:0 0 6px;font-size:22px;letter-spacing:-.02em}
+  .pw-card .pw-sub{color:var(--muted);font-size:13.5px;margin:0 0 18px;line-height:1.55}
+  .pw-price{display:flex;align-items:baseline;justify-content:center;gap:10px;margin:6px 0 2px}
+  .pw-mrp{font-size:20px;color:var(--muted);text-decoration:line-through;font-weight:600}
+  .pw-now{font-size:42px;font-weight:800;color:var(--accent);letter-spacing:-.03em}
+  .pw-per{font-size:14px;color:var(--muted);font-weight:600}
+  .pw-save{font-size:12px;font-weight:700;color:#16a34a;margin-bottom:16px}
+  .pw-feats{text-align:left;margin:0 auto 20px;padding:0;list-style:none;max-width:300px}
+  .pw-feats li{font-size:13px;color:var(--text);padding:5px 0 5px 26px;position:relative}
+  .pw-feats li:before{content:"\2713";position:absolute;left:2px;color:#16a34a;font-weight:800}
+  .pw-btn{width:100%;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:800;cursor:pointer;
+    color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent-2,#0f6b4e));font-family:inherit;transition:.18s}
+  .pw-btn:hover{transform:translateY(-2px);box-shadow:0 14px 34px color-mix(in srgb,var(--accent) 35%,transparent)}
+  .pw-btn:disabled{opacity:.6;cursor:not-allowed;transform:none;box-shadow:none}
+  .pw-note{font-size:11.5px;color:var(--muted);margin-top:12px}
+  .pw-err{display:none;font-size:12.5px;color:#dc2626;background:color-mix(in srgb,#dc2626 10%,transparent);
+    border:1px solid color-mix(in srgb,#dc2626 35%,transparent);border-radius:10px;padding:10px 12px;margin-bottom:14px}
+  .pw-err.show{display:block}
+  .pw-exp{font-size:12px;color:var(--muted);margin-top:10px}
   .mini.save{border-color:var(--accent);color:var(--text);font-weight:700}
   .mini.save:hover{background:var(--accent);color:var(--on-accent)}
   .mini.save.done{border-color:var(--green);color:var(--green);background:transparent}
@@ -161,11 +191,16 @@ window.addEventListener('DOMContentLoaded',paintThemeBtn);
     var session = res.data && res.data.session;
     if(!session){ location.replace('login.html'); return; }
     var u = session.user;
+    window.__token = session.access_token;
     var nm = (u.user_metadata && u.user_metadata.full_name) || u.email || 'Account';
     var un = document.getElementById('userName'); if(un) un.textContent = nm;
     var av = document.getElementById('uAva'); if(av) av.textContent = (nm[0]||'S').toUpperCase();
     if(gate) gate.remove();
-    window.__sb.auth.onAuthStateChange(function(_e, s){ if(!s) location.replace('login.html'); });
+    window.__sb.auth.onAuthStateChange(function(_e, s){
+      if(!s){ location.replace('login.html'); return; }
+      window.__token = s.access_token;
+    });
+    if(window.checkPlan) checkPlan(); else window.__checkPlanOnBoot = true;
   }catch(e){ if(gate) gate.remove(); console.error('Auth error:', e); }
 })();
 function signOut(){
@@ -293,6 +328,32 @@ function signOut(){
   </div>
 </div>
 
+<!-- ============ PAYWALL (shown after login until the plan is active) ============ -->
+<div id="paywall">
+  <div class="pw-card">
+    <span class="pw-badge">Limited-time offer &middot; 90% off</span>
+    <h2>Unlock the Content Engine</h2>
+    <p class="pw-sub">Your account is ready &mdash; activate your plan to start generating scripts.</p>
+    <div class="pw-err" id="pwErr"></div>
+    <div class="pw-price">
+      <span class="pw-mrp">&#8377;999</span>
+      <span class="pw-now">&#8377;99</span>
+      <span class="pw-per">/ month</span>
+    </div>
+    <div class="pw-save">You save &#8377;900 every month</div>
+    <ul class="pw-feats">
+      <li>Unlimited AI script generation</li>
+      <li>Live YouTube trend research</li>
+      <li>Hooks, captions &amp; hashtags included</li>
+      <li>Save scripts to your private library</li>
+      <li>Google Sheet approval workflow</li>
+    </ul>
+    <button class="pw-btn" id="pwBtn" onclick="startPayment()">Pay &#8377;99 &mdash; Unlock now</button>
+    <p class="pw-note">Secure payment via Razorpay &middot; UPI, cards &amp; netbanking</p>
+    <p class="pw-exp" id="pwExp"></p>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 <footer id="foot">CWA Content Engine</footer>
 
@@ -306,6 +367,84 @@ else BACKEND_URL=location.origin;
 
 let backendLive=false, ytLive=false, curCat="All", NICHES=[], CARDREG=[], LAST_IDEAS=[], LAST_NICHE="";
 const LIB = window.CONTENT_LIBRARY || [];
+
+/* ---------- PAYWALL (Razorpay, Rs999 -> Rs99/month offer) ---------- */
+function authHeaders(extra){
+  const h = Object.assign({}, extra||{});
+  if(window.__token) h["Authorization"] = "Bearer " + window.__token;
+  return h;
+}
+/* If the backend says "pay first" (402), pop the paywall. Returns true when blocked. */
+function paywalled(r){ if(r && r.status===402){ showPaywall(); return true; } return false; }
+function showPaywall(){ document.getElementById("paywall").classList.add("show"); }
+function hidePaywall(){ document.getElementById("paywall").classList.remove("show"); }
+
+async function checkPlan(){
+  try{
+    const r = await fetch(BACKEND_URL+"/me", {headers: authHeaders(), cache:"no-store"});
+    if(r.status===401){ return; }              /* token not ready yet; endpoints will still 402 */
+    const j = await r.json();
+    if(j.active){
+      hidePaywall();
+      if(j.paid_until && !j.admin){
+        const d = new Date(j.paid_until);
+        const exp = document.getElementById("pwExp");
+        if(exp) exp.textContent = "Plan active till " + d.toLocaleDateString();
+      }
+    } else {
+      showPaywall();
+    }
+  }catch(e){ /* backend unreachable - health pill already shows Offline */ }
+}
+if(window.__checkPlanOnBoot) checkPlan();
+
+let rzpLoading=null;
+function loadRazorpay(){
+  if(window.Razorpay) return Promise.resolve();
+  if(rzpLoading) return rzpLoading;
+  rzpLoading = new Promise((res,rej)=>{
+    const s=document.createElement("script");
+    s.src="https://checkout.razorpay.com/v1/checkout.js";
+    s.onload=res; s.onerror=()=>rej(new Error("Could not load Razorpay. Check your internet."));
+    document.head.appendChild(s);
+  });
+  return rzpLoading;
+}
+function pwError(m){ const e=document.getElementById("pwErr"); e.textContent=m; e.classList.add("show"); }
+async function startPayment(){
+  const btn=document.getElementById("pwBtn");
+  document.getElementById("pwErr").classList.remove("show");
+  btn.disabled=true; btn.textContent="Opening secure checkout...";
+  try{
+    await loadRazorpay();
+    const r = await fetch(BACKEND_URL+"/create_order", {method:"POST", headers:authHeaders({"Content-Type":"application/json"}), body:"{}"});
+    const j = await r.json();
+    if(!r.ok || !j.ok) throw new Error(j.reason || "Could not create the order. Try again.");
+    const email = (window.__sb && (await window.__sb.auth.getSession()).data.session?.user?.email) || "";
+    new Razorpay({
+      key: j.key_id, order_id: j.order_id, amount: j.amount, currency: j.currency,
+      name: document.getElementById("brandName").textContent || "Content Engine",
+      description: "Monthly plan - Rs 99 offer",
+      prefill: {email: email},
+      theme: {color: "#0b4d3a"},
+      modal: {ondismiss: ()=>{ btn.disabled=false; btn.innerHTML="Pay &#8377;99 &mdash; Unlock now"; }},
+      handler: async function(resp){
+        btn.textContent="Confirming payment...";
+        try{
+          const v = await fetch(BACKEND_URL+"/verify_payment", {method:"POST",
+            headers:authHeaders({"Content-Type":"application/json"}), body:JSON.stringify(resp)});
+          const vj = await v.json();
+          if(!v.ok || !vj.ok) throw new Error(vj.reason || "Verification failed. Contact support with your payment ID.");
+          hidePaywall(); toast("Payment successful! Plan active — welcome aboard 🎉");
+          checkPlan();
+        }catch(err){ pwError(err.message); btn.disabled=false; btn.innerHTML="Pay &#8377;99 &mdash; Unlock now"; }
+      }
+    }).open();
+  }catch(err){
+    pwError(err.message || "Something went wrong. Try again.");
+    btn.disabled=false; btn.innerHTML="Pay &#8377;99 &mdash; Unlock now";
+  }
+}
 
 async function checkBackend(){
   try{const r=await fetch(BACKEND_URL+"/health",{cache:"no-store"});
@@ -437,7 +576,8 @@ async function findTrends(){
   await checkBackend();
   if(!backendLive){note.classList.remove("hidden");note.innerHTML="<b>Engine offline.</b> Start it, then Find trends.";document.getElementById("trendResults").innerHTML='<div class="empty"><p>Offline.</p></div>';btn.disabled=false;btn.innerHTML='<span>&#128269;</span> Find trends';return;}
   try{
-    const r=await fetch(BACKEND_URL+"/trends",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({niche,days})});
+    const r=await fetch(BACKEND_URL+"/trends",{method:"POST",headers:authHeaders({"Content-Type":"application/json"}),body:JSON.stringify({niche,days})});
+    if(paywalled(r)){document.getElementById("trendResults").innerHTML='<div class="empty"><p>Activate your plan to see trends.</p></div>';btn.disabled=false;btn.innerHTML='<span>&#128269;</span> Find trends';return;}
     renderTrends(await r.json(),niche,days);
   }catch(e){note.classList.remove("hidden");note.innerHTML="Could not reach the engine.";document.getElementById("trendResults").innerHTML='<div class="empty"><p>Error.</p></div>';}
   btn.disabled=false;btn.innerHTML='<span>&#128269;</span> Find trends';
@@ -546,14 +686,15 @@ async function addExample(){
   const body={niche,topic:document.getElementById("exTopic").value.trim(),hook:document.getElementById("exHook").value.trim(),
     script,caption:document.getElementById("exCaption").value.trim(),hashtags:document.getElementById("exTags").value.trim()};
   try{
-    const r=await fetch(BACKEND_URL+"/add_example",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
+    const r=await fetch(BACKEND_URL+"/add_example",{method:"POST",headers:authHeaders({"Content-Type":"application/json"}),body:JSON.stringify(body)});
+    if(paywalled(r)) return;
     const j=await r.json();
     if(j.ok){toast("Example saved - AI will use this voice");["exTopic","exHook","exScript","exCaption","exTags"].forEach(id=>document.getElementById(id).value="");loadUserExamples();}
     else{toast(j.reason||"Could not save");}
   }catch(e){toast("Could not reach engine - start it first");}
 }
 async function deleteExample(id){
-  try{await fetch(BACKEND_URL+"/delete_example",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id})});toast("Deleted");loadUserExamples();}
+  try{const r=await fetch(BACKEND_URL+"/delete_example",{method:"POST",headers:authHeaders({"Content-Type":"application/json"}),body:JSON.stringify({id})});if(paywalled(r))return;toast("Deleted");loadUserExamples();}
   catch(e){toast("Could not reach engine");}
 }
 
@@ -583,7 +724,8 @@ async function runGen(overrideTopic){
   let ideas=[], meta=null;
   if(backendLive){
     try{
-      const r=await fetch(BACKEND_URL+"/generate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({niche,topic,count})});
+      const r=await fetch(BACKEND_URL+"/generate",{method:"POST",headers:authHeaders({"Content-Type":"application/json"}),body:JSON.stringify({niche,topic,count})});
+      if(paywalled(r)){note.classList.remove("hidden");note.innerHTML="<b>Activate your plan</b> to generate scripts.";btn.disabled=false;btn.innerHTML='<span>&#9889;</span> Run engine';for(let i=1;i<=4;i++)setAgent(i,"idle");return;}
       const data=await r.json();ideas=data.ideas||[];meta=data.meta||null;
       if(!ideas.length){note.classList.remove("hidden");note.innerHTML="The AI returned nothing. Check your API key in .env."+(data.note?" ("+esc(data.note)+")":"")}
     }catch(e){note.classList.remove("hidden");note.innerHTML="Could not reach the engine.";}
@@ -618,7 +760,8 @@ async function sendAllToReview(){
   if(!LAST_IDEAS.length){toast("Generate scripts first");return;}
   const btn=document.getElementById("sendAllBtn");if(btn){btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Sending...';}
   try{
-    const r=await fetch(BACKEND_URL+"/push_review",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({ideas:LAST_IDEAS,niche:LAST_NICHE,trend_source:"AI generated"})});
+    const r=await fetch(BACKEND_URL+"/push_review",{method:"POST",headers:authHeaders({"Content-Type":"application/json"}),body:JSON.stringify({ideas:LAST_IDEAS,niche:LAST_NICHE,trend_source:"AI generated"})});
+    if(paywalled(r)){if(btn){btn.disabled=false;btn.innerHTML='<span>&#128228;</span> Send all to Review sheet';}return;}
     const s=await r.json();
     if(s.ok){toast(s.added+" sent to "+LAST_NICHE+" Review sheet");refreshSheetStatus();}else{toast("Sheet not connected - see README");}
   }catch(e){toast("Could not reach engine");}
@@ -629,7 +772,8 @@ async function syncSheet(){
   const niche=document.getElementById("gCat").value||"Astrology";
   btn.disabled=true;const old=btn.innerHTML;btn.innerHTML='<span class="spinner"></span> Syncing...';
   try{
-    const r=await fetch(BACKEND_URL+"/sync_sheet",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({niche})});
+    const r=await fetch(BACKEND_URL+"/sync_sheet",{method:"POST",headers:authHeaders({"Content-Type":"application/json"}),body:JSON.stringify({niche})});
+    if(paywalled(r)){btn.disabled=false;btn.innerHTML=old;return;}
     const s=await r.json();
     if(s.ok){toast("Synced: "+s.approved+" approved, "+s.rejected+" rejected, "+s.improved+" improved");refreshSheetStatus();}else{toast("Sheet not connected - see README");}
   }catch(e){toast("Could not reach engine");}

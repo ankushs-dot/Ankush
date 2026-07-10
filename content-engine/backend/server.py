@@ -34,6 +34,7 @@ _load_env()
 
 import agents  # noqa: E402
 import sheets  # noqa: E402
+import billing  # noqa: E402
 
 PORT = int(os.getenv("PORT", "8000"))
 _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -43,7 +44,7 @@ class Handler(BaseHTTPRequestHandler):
     def _cors(self):
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
 
     def _json(self, code, payload):
         body = json.dumps(payload).encode("utf-8")
@@ -80,6 +81,34 @@ class Handler(BaseHTTPRequestHandler):
             return urllib.parse.parse_qs(self.path.split("?", 1)[1])
         return {}
 
+    # ---- auth / paywall helpers ----
+    def _auth_user(self):
+        """Return the signed-in Supabase user for this request, or None."""
+        auth = self.headers.get("Authorization", "")
+        if not auth.lower().startswith("bearer "):
+            return None
+        return billing.user_from_token(auth[7:].strip())
+
+    def _require_paid(self):
+        """Gate an endpoint: user must be signed in AND have an active plan.
+
+        If billing isn't configured (no Razorpay/Supabase keys on the server),
+        the gate is open so local dev keeps working. Returns the user dict,
+        or None after sending the error response.
+        """
+        if not (billing.razorpay_configured() and billing.supabase_configured()):
+            return {"id": "dev", "email": ""}
+        user = self._auth_user()
+        if not user:
+            self._json(401, {"error": "auth_required",
+                             "message": "Sign in to use the engine."})
+            return None
+        if not billing.is_active(user):
+            self._json(402, {"error": "payment_required",
+                             "message": "Activate your plan to use the engine."})
+            return None
+        return user
+
     def do_OPTIONS(self):
         self.send_response(204)
         self._cors()
@@ -90,7 +119,19 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/health":
             self._json(200, {"status": "ok",
                              "ai": bool(os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")),
-                             "youtube": bool(os.getenv("YOUTUBE_API_KEY"))})
+                             "youtube": bool(os.getenv("YOUTUBE_API_KEY")),
+                             "billing": billing.razorpay_configured() and billing.supabase_configured()})
+        elif path == "/pay_config":
+            self._json(200, billing.pay_config())
+        elif path == "/me":
+            user = self._auth_user()
+            if not user:
+                self._json(401, {"error": "auth_required"})
+            elif not (billing.razorpay_configured() and billing.supabase_configured()):
+                self._json(200, {"email": user.get("email"), "active": True,
+                                 "admin": False, "paid_until": None, "billing_off": True})
+            else:
+                self._json(200, billing.status(user))
         elif path == "/niches":
             niches, brand = agents.load_niches()
             self._json(200, {"brand": brand, "niches": [
@@ -116,6 +157,15 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         path = self.path.split("?", 1)[0]
+        if path == "/create_order":
+            return self._create_order()
+        if path == "/verify_payment":
+            return self._verify_payment()
+        # everything below needs an active plan
+        if path in ("/trends", "/generate", "/push_review", "/sync_sheet",
+                    "/add_example", "/delete_example"):
+            if not self._require_paid():
+                return
         if path == "/trends":
             return self._trends()
         if path == "/generate":
@@ -129,6 +179,37 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/delete_example":
             return self._delete_example()
         self._json(404, {"error": "not found"})
+
+    def _create_order(self):
+        user = self._auth_user()
+        if not user:
+            self._json(401, {"error": "auth_required"})
+            return
+        try:
+            order = billing.create_order(user)
+            self._json(200, {"ok": True, "order_id": order["id"],
+                             "amount": order["amount"], "currency": order["currency"],
+                             "key_id": billing.RAZORPAY_KEY_ID})
+        except Exception as e:
+            self._json(500, {"ok": False, "reason": str(e)})
+
+    def _verify_payment(self):
+        user = self._auth_user()
+        if not user:
+            self._json(401, {"error": "auth_required"})
+            return
+        req = self._read()
+        order_id = req.get("razorpay_order_id", "")
+        payment_id = req.get("razorpay_payment_id", "")
+        signature = req.get("razorpay_signature", "")
+        if not billing.verify_signature(order_id, payment_id, signature):
+            self._json(400, {"ok": False, "reason": "Payment signature mismatch."})
+            return
+        try:
+            until = billing.activate(user, payment_id, order_id)
+            self._json(200, {"ok": True, "paid_until": until.isoformat()})
+        except Exception as e:
+            self._json(500, {"ok": False, "reason": str(e)})
 
     def _trends(self):
         req = self._read()
@@ -235,6 +316,7 @@ def main():
     print("  Niches:      %s" % ", ".join(n.get("name", "") for n in niches))
     print("  Gemini key:  %s" % ("YES" if (os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")) else "NO"))
     print("  YouTube key: %s" % ("YES" if os.getenv("YOUTUBE_API_KEY") else "no"))
+    print("  Billing:     %s" % ("ON (Razorpay)" if (billing.razorpay_configured() and billing.supabase_configured()) else "off - engine open to all signed-in users"))
     print("  Press Ctrl+C to stop.")
     print("=" * 56)
     ThreadingHTTPServer(("0.0.0.0", PORT), Handler).serve_forever()
