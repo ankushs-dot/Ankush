@@ -3,6 +3,7 @@ import Home from "./pages/Home.jsx";
 import RealEstateIndia from "./pages/RealEstateIndia.jsx";
 import RealEstateUSA from "./pages/RealEstateUSA.jsx";
 import ThankYou from "./pages/ThankYou.jsx";
+import Content from "./pages/Content.jsx";
 
 export default function App() {
   return (
@@ -12,6 +13,7 @@ export default function App() {
         <Route path="/realestate-india" element={<RealEstateIndia />} />
         <Route path="/realestate-usa" element={<RealEstateUSA />} />
         <Route path="/thank-you" element={<ThankYou />} />
+        <Route path="/content" element={<Content />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
@@ -28,6 +30,7 @@ function NotFound() {
         <li><Link to="/realestate-india">Real Estate — India</Link></li>
         <li><Link to="/realestate-usa">Real Estate — USA</Link></li>
         <li><Link to="/thank-you">Thank You</Link></li>
+        <li><Link to="/content">Content Engine</Link></li>
       </ul>
     </div>
   );
